@@ -18,9 +18,11 @@
     *ngFor="let book of books"
     class="book-card flex flex-col justify-center"
   >
+ 
     <img [src]="book.imageUrl" alt="Book Cover" />
     <h2>{{ book.title }}</h2>
-    <p>{{ book.PublishDate | date }}</p>
+    {{book.imageUrl}}
+    <p>{{ book.PublishDate | date: 'yyyy' }}</p>
     <div class="flex justify-between items-center p-0">
       <a [href]="book.purchaseLink" target="_blank">Purchase</a>
       <div>

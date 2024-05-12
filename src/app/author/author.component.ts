@@ -15,12 +15,10 @@ export class AuthorComponent {
   openAddBookDialog(): void {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: '400px',
-      data: {} // You can pass data to the modal if needed
+      data: {} 
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      // Handle any actions after the dialog is closed
     });
   }
 }

@@ -20,7 +20,6 @@ export class BookListComponent implements OnInit {
   ngOnInit(): void {
     this.getBooks();
     this.bookService.bookAdded$$.subscribe((formData: any) => {
-      // Here you can handle the new book data and push it to the books array
       const newBook: Book = {
         imageUrl: formData.get('image'),
         title: formData.get('title'),
@@ -28,6 +27,7 @@ export class BookListComponent implements OnInit {
         PublishDate: formData.get('publishDate')
       };
       this.books.push(newBook);
+      console.log('newBook', newBook)
       this.sortBooks()
     });
   }
@@ -44,9 +44,12 @@ export class BookListComponent implements OnInit {
         }))
       )
       .subscribe((data: any) => {
-        this.author = data.author;
-        this.books = data.books;
-        this.sortBooks(); // Sort books initially based on default sorting option
+        if(data){
+          this.author = data.author;
+          this.books = data.books;
+          this.sortBooks(); 
+        }
+    
       });
   }
   sortBooks(): void {
@@ -71,19 +74,23 @@ export class BookListComponent implements OnInit {
   }
   editBook(book: Book): void {
     const dialogRef = this.dialog.open(AddBookComponent, {
-      data: { book }, // Pass the book data to the modal
-    });
-
-    dialogRef.afterClosed().subscribe((updatedBook: Book) => {
-        // Find the index of the edited book in the books array
-        const index = this.books.findIndex(b => b === book);
-        if (index !== -1) {
-          // Update the book data in the books array
-          this.books[index] = updatedBook;
-          // Sort the books array based on the current sorting option
-          this.sortBooks();
-        }
+      data: { book }, 
     });
   
+    dialogRef.afterClosed().subscribe((updatedBook: Book) => {
+      if (updatedBook) { // Check if book is updated
+        const index = this.books.findIndex(b => b === book);
+        if (index !== -1) {
+          this.books[index] = updatedBook;
+          this.sortBooks();
+          console.log('Book updated successfully:', updatedBook);
+        } else {
+          console.error('Book not found in the list. Update failed.');
+        }
+      } else {
+        console.log('No changes made. Book remains unchanged.');
+      }
+    });
   }
+  
 }
