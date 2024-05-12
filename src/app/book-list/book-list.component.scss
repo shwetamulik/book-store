@@ -1,0 +1,83 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.author-info {
+  margin-bottom: 24px;
+}
+
+.book-list-container {
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap; 
+  justify-content: space-between; 
+}
+
+.book-card {
+  width: calc(50% - 12px);
+  margin-bottom: 24px;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 500px;
+  object-fit: contain;
+}
+
+.book-card img {
+  max-width: 100%;
+  max-height: 80%;
+  object-fit: contain;
+  filter: drop-shadow(2px 4px 6px black);
+  margin-bottom: 10px;
+  background-color: black;
+}
+
+.book-card h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 12px;
+}
+
+.book-card p {
+  margin: 2px;
+  font-size: 14px;
+  color: #666666;
+}
+
+.book-card a {
+  color: #3182ce;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .book-card {
+    width: 100%;
+  }
+}
+
+.sticky-header-container {
+  background-color: #ffffff;
+}
+
+.sticky-header {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 24px 0;
+  margin-bottom: 36px;
+}
+
+.sort-dropdown {
+  margin-bottom: 36px;
+}

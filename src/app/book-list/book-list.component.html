@@ -1,0 +1,47 @@
+<div class="sticky-header-container">
+  <app-author [author]="author"></app-author>
+  <div class="flex justify-between px-4 items-center flex-wrap">
+    <h2 class="sticky-header">BOOKS</h2>
+
+    <div class="sort-dropdown" id="sortDropdown">
+      <label for="sortSelect">Sort by:</label>
+      <select id="sortSelect" (change)="onSortChange($event)">
+        <option value="title">Title</option>
+        <option value="publishDate">Publish Date</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="book-list-container">
+  <div
+    *ngFor="let book of books"
+    class="book-card flex flex-col justify-center"
+  >
+    <img [src]="book.imageUrl" alt="Book Cover" />
+    <h2>{{ book.title }}</h2>
+    <p>{{ book.PublishDate | date }}</p>
+    <div class="flex justify-between items-center p-0">
+      <a [href]="book.purchaseLink" target="_blank">Purchase</a>
+      <div>
+        <button
+          mat-icon-button
+          color="warn"
+          (click)="deleteBook(book)"
+          class="ml-auto"
+        >
+          <i class="material-icons">delete</i>
+        </button>
+
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="editBook(book)"
+          class="ml-auto"
+        >
+          <i class="material-icons">edit</i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

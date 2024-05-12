@@ -1,0 +1,11 @@
+<section class="author-info" *ngIf="author">
+    <h2 class="headline-1">{{ author.name }}</h2>
+    <p>
+        <i>
+        Born: 
+        {{ author.birthday }} in {{ author.birthPlace }}
+    </i></p>
+    <button mat-raised-button color="primary" (click)="openAddBookDialog()">Add Book</button>
+
+  </section>
+  
