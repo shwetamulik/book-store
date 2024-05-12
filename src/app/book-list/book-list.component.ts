@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BookService } from '../services/book.service';
 import { ApiResponse, Author, Book } from '../models/book.model';
 import { response } from 'express';
-import { map } from 'rxjs';
+import { Subscription, map } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { AddBookComponent } from '../add-book/add-book.component';
 
@@ -11,15 +11,18 @@ import { AddBookComponent } from '../add-book/add-book.component';
   templateUrl: './book-list.component.html',
   styleUrls: ['./book-list.component.scss'],
 })
-export class BookListComponent implements OnInit {
+export class BookListComponent implements OnInit, OnDestroy {
   author: any;
   books: Book[] = [];
   sortBy: string = 'title';
+  subscription!: Subscription;
+  dialogRefSubscription!: Subscription;
+
   constructor(private bookService: BookService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.getBooks();
-    this.bookService.bookAdded$$.subscribe((formData: any) => {
+   this.subscription = this.bookService.bookAdded$$.subscribe((formData: any) => {
       const newBook: Book = {
         imageUrl: formData.get('image'),
         title: formData.get('title'),
@@ -77,7 +80,7 @@ export class BookListComponent implements OnInit {
       data: { book }, 
     });
   
-    dialogRef.afterClosed().subscribe((updatedBook: Book) => {
+    this.dialogRefSubscription = dialogRef.afterClosed().subscribe((updatedBook: Book) => {
       if (updatedBook) { // Check if book is updated
         const index = this.books.findIndex(b => b === book);
         if (index !== -1) {
@@ -91,6 +94,11 @@ export class BookListComponent implements OnInit {
         console.log('No changes made. Book remains unchanged.');
       }
     });
+  }
+
+  ngOnDestroy(): void {
+      this.subscription.unsubscribe()
+      this.dialogRefSubscription.unsubscribe()
   }
   
 }
